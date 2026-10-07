@@ -11,6 +11,10 @@ type RouteItem = {
 
 const routes: RouteItem[] = [
   {
+    path: "/*",
+    element: <GardenLayout />,
+  },
+  {
     path: "/garden",
     element: <GardenLayout />,
   },
@@ -27,7 +31,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </MantineProvider>
-  )
+  );
 }
 
-export default App
+export default App;
