@@ -193,7 +193,14 @@ export default function GardenLayout() {
             ]}
             allowDeselect={false}
             checkIconPosition="right"
-            comboboxProps={{ withinPortal: true, shadow: "md" }}
+            comboboxProps={{
+              withinPortal: true,
+              shadow: "md",
+              position: "top-start",
+              width: "target",
+              offset: 6,
+              middlewares: { flip: false, shift: false },
+            }}
             styles={{
               input: {
                 minHeight: 30,
