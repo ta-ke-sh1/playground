@@ -233,6 +233,7 @@ body {
 
 .flower-select input {
   letter-spacing: 0.025em;
+  font-size: 10px;
 }
 
 .live-dot {
@@ -268,30 +269,59 @@ body {
   }
 
   .garden-hints {
-    gap: 10px;
-    font-size: 10px;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0;
+    font-size: clamp(6px, 2.25vw, 9px);
+    letter-spacing: 0;
+  }
+
+  .garden-hints span {
+    white-space: nowrap;
   }
 
   .garden-hints span + span::before {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   .garden-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 40px;
     width: 100%;
-    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .flower-select {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
   }
 
   .garden-controls .swatch {
-    width: clamp(14px, calc((100vw - 175px) / 10), 20px);
-    height: clamp(14px, calc((100vw - 175px) / 10), 20px);
+    width: clamp(9px, calc((100vw - 255px) / 10), 14px);
+    height: clamp(9px, calc((100vw - 255px) / 10), 14px);
   }
 
   .garden-palette {
-    gap: 4px;
+    min-width: 0;
+    height: 30px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
   }
 
   .garden-controls .export {
-    padding: 7px 11px;
+    width: 40px;
+    height: 30px;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    white-space: nowrap;
   }
 
   .garden-mode {
@@ -301,7 +331,7 @@ body {
     letter-spacing: 0.12em;
   }
 
-  .flower-select {
-    width: 110px;
+  .flower-select input {
+    font-size: 16px;
   }
 }

@@ -13,8 +13,8 @@ export default function GardenLayout() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const engineRef = useRef<GardenEngine | null>(null);
-  const [selectedPalette, setSelectedPalette] = useState(
-    () => Math.floor(Math.random() * PALETTES.length),
+  const [selectedPalette, setSelectedPalette] = useState(() =>
+    Math.floor(Math.random() * PALETTES.length),
   );
   const [flowerMode, setFlowerMode] = useState<FlowerMode>("all");
 
@@ -156,6 +156,7 @@ export default function GardenLayout() {
           developed using prompt suggestions from{" "}
           <Badge
             color={colors[3]}
+            variant="light"
             autoContrast
             style={{
               cursor: "pointer",
@@ -201,7 +202,6 @@ export default function GardenLayout() {
                 color: colors[5],
                 borderColor: `${colors[5]}55`,
                 fontFamily: "'DM Mono', monospace",
-                fontSize: 10,
               },
               dropdown: {
                 background: colors[1],
