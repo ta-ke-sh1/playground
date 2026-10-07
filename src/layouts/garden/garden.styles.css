@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+.garden-app {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  color: var(--garden-foreground);
+  font-family: "DM Mono", monospace;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  cursor: text;
+  transition: background-color 0.35s ease;
+  color-scheme: dark;
+}
+
+.garden-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.garden-input {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: transparent;
+  background: transparent;
+  caret-color: transparent;
+  font-size: 16px;
+  cursor: text;
+  pointer-events: auto;
+}
+
+.garden-brand {
+  position: absolute;
+  left: 24px;
+  top: 22px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.garden-mark {
+  font-family: "Libre Baskerville", serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.08em;
+  opacity: 0.82;
+}
+
+.garden-kicker {
+  font-size: 9px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  opacity: 1;
+  margin-top: 3px;
+}
+
+.garden-mode {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.21);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(12px);
+}
+
+.garden-mode button,
+.garden-controls button {
+  font: inherit;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.garden-mode button {
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 11px;
+  color: var(--garden-foreground);
+  background: transparent;
+  opacity: 0.65;
+}
+
+.garden-mode button.active {
+  color: var(--garden-background);
+  background: var(--garden-foreground);
+  opacity: 1;
+}
+
+.garden-footer {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 20px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  letter-spacing: 0.035em;
+  color: var(--garden-foreground);
+  opacity: 0.66;
+  pointer-events: none;
+}
+
+.garden-hints {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.garden-hints span + span::before {
+  content: "·";
+  opacity: 0.55;
+  margin-right: 18px;
+}
+
+.garden-count {
+  opacity: 0.75;
+}
+
+.garden-controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  pointer-events: auto;
+}
+
+.garden-palette {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.21);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.garden-controls .swatch {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid transparent;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+  transform: scale(0.95);
+}
+
+.garden-controls .swatch:hover {
+  transform: scale(1.12);
+}
+
+.garden-controls .swatch.selected {
+  border-color: var(--garden-foreground);
+  transform: scale(1.08);
+}
+
+.swatch i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: block;
+}
+
+.garden-controls .export {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.27);
+  color: var(--garden-foreground);
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 10px;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.garden-controls .export:hover {
+  border-color: var(--garden-foreground);
+}
+
+.garden-credit {
+  position: absolute;
+  right: 24px;
+  top: 25px;
+  z-index: 1;
+  font-size: 9px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.flower-select {
+  width: 124px;
+  flex: none;
+}
+
+.flower-select input {
+  letter-spacing: 0.025em;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--garden-accent);
+  box-shadow: 0 0 12px var(--garden-accent);
+  animation: garden-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes garden-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 650px) {
+  .garden-brand {
+    left: 16px;
+    top: 18px;
+  }
+
+  .garden-credit {
+    display: none;
+  }
+
+  .garden-footer {
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    gap: 12px;
+  }
+
+  .garden-hints {
+    gap: 10px;
+    font-size: 10px;
+  }
+
+  .garden-hints span + span::before {
+    margin-right: 10px;
+  }
+
+  .garden-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .garden-controls .swatch {
+    width: clamp(14px, calc((100vw - 175px) / 10), 20px);
+    height: clamp(14px, calc((100vw - 175px) / 10), 20px);
+  }
+
+  .garden-palette {
+    gap: 4px;
+  }
+
+  .garden-controls .export {
+    padding: 7px 11px;
+  }
+
+  .garden-mode {
+    gap: 8px;
+    padding: 9px 13px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .flower-select {
+    width: 110px;
+  }
+}
