@@ -10,10 +10,6 @@ body,
   margin: 0;
 }
 
-body {
-  overflow: hidden;
-}
-
 .garden-app {
   position: fixed;
   inset: 0;

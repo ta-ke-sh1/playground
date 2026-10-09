@@ -1,4 +1,5 @@
 import { Badge, Select, Tooltip } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import {
   useCallback,
   useEffect,
@@ -11,6 +12,7 @@ import "./garden.styles.css";
 
 export default function GardenLayout() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const engineRef = useRef<GardenEngine | null>(null);
   const [selectedPalette, setSelectedPalette] = useState(() =>
@@ -151,7 +153,11 @@ export default function GardenLayout() {
         onChange={handleInput}
       />
       <div className="garden-brand" style={{ zIndex: 100000 }}>
-        <div className="garden-mark">Playground No.1: Type Garden</div>
+        <div style={{
+            cursor: 'pointer',
+            pointerEvents: "auto",
+                zIndex: 100000,
+          }} onClick={() => navigate("/")}  className="garden-mark">Playground No.1: Type Garden</div>
         <div className="garden-kicker">
           developed using prompt suggestions from{" "}
           <Badge
