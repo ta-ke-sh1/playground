@@ -5,6 +5,7 @@ import Calendar from "./calendar/calendar";
 import CollectionService from "../../services/collection.service";
 import type { CollectionEntity } from "../../models/entity/collection.model.tsx";
 import "./collections.layout.scss";
+import CollectionDetailsLayout from "./collectionDetails.layout.tsx";
 
 /** Helper function to format a Date object or month/year pair into "JUL. 2026" format */
 function formatMonthYear(year: number, monthIndex: number): string {
@@ -17,19 +18,6 @@ function formatMonthYear(year: number, monthIndex: number): string {
   return formatted.toUpperCase().replace(/^([A-Z]{3})\b/, "$1.");
 }
 
-function formatMonthYearJP(year: number, monthIndex: number): string {
-  const date = new Date(year, monthIndex, 1);
-  return new Intl.DateTimeFormat("ja-JP", {
-    year: "numeric",
-    month: "long", // Outputs as "9月"
-  }).format(date);
-}
-
-enum ViewMode {
-  LIST = "List",
-  CALENDAR = "Calendar",
-}
-
 export default function CollectionsLayout() {
   const now = new Date();
 
@@ -40,6 +28,8 @@ export default function CollectionsLayout() {
   });
 
   const [data, setData] = useState<CollectionEntity[]>([]);
+
+  const [selectedData, setSelectedData] = useState<any>(undefined);
 
   useEffect(() => {
     async function fetchCollections(): Promise<void> {
@@ -89,7 +79,12 @@ export default function CollectionsLayout() {
   const prevLabel = formatMonthYear(currentDate.year, currentDate.month - 1);
   const nextLabel = formatMonthYear(currentDate.year, currentDate.month + 1);
 
-  return (
+  return selectedData ? (
+    <CollectionDetailsLayout
+      id={selectedData}
+      setSelectedData={setSelectedData}
+    />
+  ) : (
     <Container fluid mt="sm" p="0">
       <Group
         mt="sm"
@@ -148,6 +143,7 @@ export default function CollectionsLayout() {
         />
 
         <Calendar
+          setSelectedData={setSelectedData}
           data={data}
           year={currentDate.year}
           month={currentDate.month}

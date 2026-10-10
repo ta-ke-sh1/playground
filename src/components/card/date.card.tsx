@@ -1,19 +1,17 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Group, Text, Stack, UnstyledButton } from "@mantine/core";
 import { IconTerminal, IconArrowUpRight } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
 import { getRandomNumber } from "../../services/utils.service";
 
 interface DateCardProps {
   data?: any;
+  setSelectedData: any;
 }
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? "";
 const EMPTY_ITEMS: any[] = [];
 
-export function DateCard({ data }: DateCardProps) {
-  const navigate = useNavigate();
-
+export function DateCard({ data, setSelectedData }: DateCardProps) {
   const hasData = Boolean(data?.data);
   const cardData = data?.data;
   const collectionId = cardData?.id;
@@ -25,7 +23,7 @@ export function DateCard({ data }: DateCardProps) {
 
   function handleNavigate() {
     if (hasData) {
-      navigate(`/collections/${cardData.name}`);
+      setSelectedData(cardData.id);
     }
   }
 

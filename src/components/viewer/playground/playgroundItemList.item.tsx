@@ -67,6 +67,7 @@ export default function PlaygroundItemListItem({
             fontFamily: "Libre Baskerville",
             fontStyle: "italic",
             fontWeight: 200,
+            fontSize: "clamp(16px, 2vw, 20px)",
           }}
           size="lg"
         >
