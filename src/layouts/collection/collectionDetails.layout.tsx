@@ -15,6 +15,7 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import CollectionService from "../../services/collection.service.ts";
 import type { CollectionItemEntity } from "../../models/entity/collection.model";
 import {
+  IconArrowsSort,
   IconChevronDown,
   IconChevronLeft,
   IconSearch,
@@ -32,7 +33,7 @@ const SORT_OPTIONS = [
 ];
 
 const FIELD_CLASSNAMES = {
-  label: "folio-field-label",
+  label: "playground-filter-tag-label",
   input: "folio-input",
   section: "folio-section",
 };
@@ -199,47 +200,36 @@ export default function CollectionDetailsLayout({ id, setSelectedData }: any) {
             <div id="collection-filters">
               <Group align="end" gap="md" wrap="wrap">
                 <TextInput
+                  size="sm"
                   aria-label="Search collection items"
                   label="Search items"
                   placeholder="Search name, author, year, or tag"
+                  leftSection={<IconSearch size={16} aria-hidden="true" />}
                   value={searchQuery}
                   onChange={(event) =>
                     setSearchQuery(event.currentTarget.value)
                   }
                   classNames={{
                     ...FIELD_CLASSNAMES,
-                    root: "collection-filter-field",
                   }}
                   style={{ flex: "1 1 240px", maxWidth: 350 }}
                 />
                 <Select
                   aria-label="Order collection items"
                   label="Order by"
+                  size="sm"
+                  leftSection={<IconArrowsSort size={16} aria-hidden="true" />}
                   data={SORT_OPTIONS}
                   value={sortOrder}
                   onChange={setSortOrder}
                   allowDeselect={false}
                   classNames={{
                     ...FIELD_CLASSNAMES,
-                    root: "collection-filter-field",
                     dropdown: "collection-filter-dropdown",
                     option: "collection-filter-option",
                   }}
                   style={{ flex: "0 1 220px" }}
                 />
-                {!isMobile && (
-                  <Text
-                    mb={10}
-                    style={{
-                      fontFamily: '"DM Mono", monospace',
-                      fontSize: "13px",
-                      color: "var(--mantine-color-dimmed)",
-                    }}
-                  >
-                    {filteredData.length}{" "}
-                    {filteredData.length === 1 ? "item" : "items"}
-                  </Text>
-                )}
               </Group>
 
               {availableTags.length > 0 && (
@@ -248,8 +238,8 @@ export default function CollectionDetailsLayout({ id, setSelectedData }: any) {
                     <Text
                       className="collection-filter-label"
                       style={{
-                        fontSize: "14px",
-                        fontWeight: 600,
+                        fontSize: "10px",
+                        fontWeight: 400,
                       }}
                     >
                       Filter by tags
@@ -261,10 +251,11 @@ export default function CollectionDetailsLayout({ id, setSelectedData }: any) {
                     aria-label="Filter collection items by tag"
                   >
                     <Group gap="xs">
-                      {availableTags.map(({ tag, count }) => {
+                      {availableTags.map(({ tag }) => {
                         const isActive = selectedTags.includes(tag);
                         return (
                           <Badge
+                            size="lg"
                             color="violet"
                             radius={"sm"}
                             variant="light"
@@ -275,14 +266,6 @@ export default function CollectionDetailsLayout({ id, setSelectedData }: any) {
                             onClick={() => toggleTag(tag)}
                           >
                             {tag}
-                            <span
-                              style={{
-                                marginLeft: "5px",
-                              }}
-                              className="collection-tag__count"
-                            >
-                              ({count})
-                            </span>
                           </Badge>
                         );
                       })}

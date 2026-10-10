@@ -169,7 +169,7 @@ function PlaygroundSite() {
     return projects.filter((project) => {
       const matchesTags =
         filters.tags.length === 0 ||
-        filters.tags.some((tag) => project.tags.includes(tag));
+        filters.tags.every((tag) => project.tags.includes(tag));
       const matchesCategory =
         filters.category === null || project.category === filters.category;
       const matchesName =
@@ -192,7 +192,7 @@ function PlaygroundSite() {
 
   return (
     <Stack gap="xs" mt="lg" mb="40">
-      <Grid>
+      <Grid mb="xl">
         <Grid.Col span={{ base: 12, md: 2 }}>
           <Title
             style={{
@@ -210,24 +210,44 @@ function PlaygroundSite() {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 5 }}>
           <Stack gap="xs">
-            <Text style={{ letterSpacing: "-1px" }}>
+            <Text
+              style={{
+                letterSpacing: "-1px",
+                fontSize: "clamp(10px, 2vw, 14px)",
+              }}
+            >
               Little backyard playground site that I used to re-create, test,
               and play on visual effects and newly accquired knowledge.
             </Text>
-            <Text style={{ letterSpacing: "-1px" }}>
+            <Text
+              style={{
+                letterSpacing: "-1px",
+                fontSize: "clamp(10px, 2vw, 14px)",
+              }}
+            >
               All sources will be credited inside the playground item details.
             </Text>
           </Stack>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 5 }}>
           <Stack gap="xs">
-            <Text style={{ letterSpacing: "-1px" }}>
+            <Text
+              style={{
+                letterSpacing: "-1px",
+                fontSize: "clamp(10px, 2vw, 14px)",
+              }}
+            >
               I choose projects that spark my curiosity—sites with interactions,
               visual details, or ideas I want to understand better. Recreating
               them gives me a hands-on way to study what makes the experience
               work.
             </Text>
-            <Text style={{ letterSpacing: "-1px" }}>
+            <Text
+              style={{
+                letterSpacing: "-1px",
+                fontSize: "clamp(10px, 2vw, 14px)",
+              }}
+            >
               These are experiments, not exact copies: I rebuild, play with
               variations, and explore different techniques. Along the way, I
               learn from the original and develop ideas of my own.

@@ -5,20 +5,16 @@ import {
   Collapse,
   Divider,
   Group,
-  MultiSelect,
   Select,
   Stack,
+  Text,
   TextInput,
+  UnstyledButton,
   useMantineTheme,
   Grid,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import {
-  IconCalendar,
-  IconCategory,
-  IconSearch,
-  IconTags,
-} from "@tabler/icons-react";
+import { IconCalendar, IconCategory, IconSearch } from "@tabler/icons-react";
 import type { PlaygroundItem } from "../../../models/playgroundItem.model";
 
 export interface PlaygroundItemFilters {
@@ -61,9 +57,23 @@ export default function PlaygroundItemFiltersPanel({
   const categories = [
     ...new Set(items.map((item) => item.category).filter(Boolean)),
   ].sort();
-  const tags = [
-    ...new Set(items.flatMap((item) => item.tags).filter(Boolean)),
-  ].sort();
+  const tags = Array.from(
+    items.reduce((counts, item) => {
+      new Set(item.tags.filter(Boolean)).forEach((tag) => {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      });
+      return counts;
+    }, new Map<string, number>()),
+  )
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => a.tag.localeCompare(b.tag));
+
+  const toggleTag = (tag: string) => {
+    const selectedTags = value.tags.includes(tag)
+      ? value.tags.filter((selectedTag) => selectedTag !== tag)
+      : [...value.tags, tag];
+    onChange({ ...value, tags: selectedTags });
+  };
 
   return (
     <Stack className="playground-filter-panel" gap={0} mb={isMdUp ? "12px" : 0}>
@@ -119,23 +129,10 @@ export default function PlaygroundItemFiltersPanel({
                 width: "100%",
               }}
             >
-              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-                <MultiSelect
-                  placeholder="Tags"
-                  leftSection={<IconTags size={16} aria-hidden="true" />}
-                  data={tags}
-                  value={value.tags}
-                  onChange={(selectedTags) =>
-                    onChange({ ...value, tags: selectedTags })
-                  }
-                  searchable
-                  clearable
-                  aria-label="Tags"
-                  comboboxProps={{ withinPortal: true, shadow: "md" }}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                 <Select
+                  label="Category"
+                  classNames={{ label: "playground-filter-tag-label" }}
                   placeholder="Category"
                   leftSection={<IconCategory size={16} aria-hidden="true" />}
                   data={categories}
@@ -147,8 +144,10 @@ export default function PlaygroundItemFiltersPanel({
                   comboboxProps={{ withinPortal: true, shadow: "md" }}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                 <TextInput
+                  label="Name"
+                  classNames={{ label: "playground-filter-tag-label" }}
                   placeholder="Name"
                   leftSection={<IconSearch size={16} aria-hidden="true" />}
                   value={value.name}
@@ -158,8 +157,10 @@ export default function PlaygroundItemFiltersPanel({
                   aria-label="Name"
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                 <DatePickerInput
+                  label="Date range"
+                  classNames={{ label: "playground-filter-tag-label" }}
                   type="range"
                   placeholder="From date – To date"
                   leftSection={<IconCalendar size={16} aria-hidden="true" />}
@@ -179,6 +180,48 @@ export default function PlaygroundItemFiltersPanel({
               </Grid.Col>
             </Grid>
           </Group>
+          {tags.length > 0 && (
+            <Stack gap={6} mt="sm">
+              <Text className="playground-filter-tag-label">
+                Filter by tags
+              </Text>
+              <div
+                className="playground-filter-tag-list"
+                role="group"
+                aria-label="Filter playground items by tag"
+              >
+                <Group gap="xs">
+                  {tags.map(({ tag }) => {
+                    const isActive = value.tags.includes(tag);
+                    return (
+                      <Badge
+                        size="lg"
+                        radius="sm"
+                        key={`playground-tag-${tag}`}
+                        color="orange"
+                        variant="light"
+                        data-active={isActive}
+                        aria-pressed={isActive}
+                        onClick={() => toggleTag(tag)}
+                      >
+                        {tag}
+                      </Badge>
+                    );
+                  })}
+                  {value.tags.length > 0 && (
+                    <Button
+                      color="red"
+                      variant="light"
+                      size="xs"
+                      onClick={() => onChange({ ...value, tags: [] })}
+                    >
+                      Clear ({value.tags.length})
+                    </Button>
+                  )}
+                </Group>
+              </div>
+            </Stack>
+          )}
           {!isMdUp && <Divider mt="md" mb="md" />}
         </Collapse>
       </Group>

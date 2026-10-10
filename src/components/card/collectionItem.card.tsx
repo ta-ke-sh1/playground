@@ -51,6 +51,7 @@ export function CollectionItemCard({ data }: CollectionItemCardProps) {
           <Group className="collection-item-card__tags" gap={6}>
             {data.tags.filter(Boolean).map((tag, index) => (
               <Badge
+                size="md"
                 key={`${data.id}-${tag}-${index}`}
                 variant="light"
                 color="violet"

@@ -73,13 +73,14 @@
 
 .collection-filter-field .folio-input,
 .collection-filter-field .mantine-Input-input {
+  height: 42px;
   min-height: 42px;
   border: 1px solid var(--mantine-color-default-border);
   border-radius: 9px;
   background: color-mix(in srgb, var(--mantine-color-body) 62%, transparent);
   color: var(--mantine-color-text);
   font-family: "DM Mono", monospace;
-  font-size: 12px;
+  font-size: 13px;
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -103,9 +104,9 @@
 
 .collection-filter-field .folio-input:focus,
 .collection-filter-field .mantine-Input-input:focus {
-  border-color: var(--mantine-color-orange-6);
+  border-color: var(--mantine-color-violet-6);
   box-shadow: 0 0 0 2px
-    color-mix(in srgb, var(--mantine-color-orange-6) 18%, transparent);
+    color-mix(in srgb, var(--mantine-color-violet-6) 18%, transparent);
 }
 
 .collection-filter-field .folio-section {
