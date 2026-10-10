@@ -6,17 +6,20 @@ import {
   Divider,
   Group,
   MultiSelect,
-  Paper,
   Select,
   Stack,
-  Text,
   TextInput,
-  Title,
   useMantineTheme,
+  Grid,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
+import {
+  IconCalendar,
+  IconCategory,
+  IconSearch,
+  IconTags,
+} from "@tabler/icons-react";
 import type { PlaygroundItem } from "../../../models/playgroundItem.model";
-import Dither from "../../backgrounds/dither";
 
 export interface PlaygroundItemFilters {
   tags: string[];
@@ -34,57 +37,11 @@ interface PlaygroundItemFiltersProps {
   totalCount: number;
 }
 
-interface PlaygroundItemFilterSummaryProps {
-  filters: PlaygroundItemFilters;
-}
-
-function PlaygroundItemFilterSummary({
-  filters,
-}: PlaygroundItemFilterSummaryProps) {
-  const selectedFilters = [
-    ...filters.tags.map((tag) => ({ label: `tag: ${tag}`, color: "blue" })),
-    filters.category
-      ? { label: `category: ${filters.category}`, color: "green" }
-      : null,
-    filters.name.trim()
-      ? { label: `name: ${filters.name.trim()}`, color: "orange" }
-      : null,
-    filters.startDate || filters.endDate
-      ? {
-          label: `date: ${filters.startDate || "Any"} – ${filters.endDate || "Any"}`,
-          color: "grape",
-        }
-      : null,
-  ].filter(
-    (filter): filter is { label: string; color: string } => filter !== null,
-  );
-
-  return (
-    <Group className="playground-filter-summary" gap="xs" ml="12">
-      <Text size="sm" c="dimmed">
-        Filtering by:
-      </Text>
-      {selectedFilters.length > 0 ? (
-        selectedFilters.map((filter) => (
-          <Badge key={filter.label} color={filter.color} variant="light">
-            {filter.label}
-          </Badge>
-        ))
-      ) : (
-        <Text size="sm" c="dimmed">
-          All projects
-        </Text>
-      )}
-    </Group>
-  );
-}
-
 export default function PlaygroundItemFiltersPanel({
   items,
   value,
   onChange,
   resultCount,
-  totalCount,
 }: PlaygroundItemFiltersProps) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [isMdUp, setIsMdUp] = useState(true);
@@ -107,60 +64,9 @@ export default function PlaygroundItemFiltersPanel({
   const tags = [
     ...new Set(items.flatMap((item) => item.tags).filter(Boolean)),
   ].sort();
-  const hasActiveFilters =
-    value.tags.length > 0 ||
-    value.category !== null ||
-    value.name !== "" ||
-    value.startDate !== "" ||
-    value.endDate !== "";
 
   return (
     <Stack className="playground-filter-panel" gap={0} mb={isMdUp ? "12px" : 0}>
-      <Group
-        align="flex-end"
-        gap={5}
-        style={{
-          position: "absolute",
-          left: 22,
-          top: "95px",
-          zIndex: 2,
-        }}
-      >
-        <Title
-          style={{
-            fontFamily: "Libre Baskerville, serif",
-            fontStyle: "italic",
-            fontSize: "32px",
-            fontWeight: "200",
-            color: "white",
-          }}
-        >
-          Playground
-        </Title>
-        <Title
-          style={{
-            fontFamily: "DM Mono, monospace",
-            fontSize: "14px",
-            fontWeight: "200",
-            transform: "translateY(-6px)",
-            color: "white",
-          }}
-        >
-          (by trung.ha)
-        </Title>
-      </Group>
-
-      <Dither
-        waveColor={[0.5, 0.5, 0]}
-        disableAnimation={false}
-        enableMouseInteraction={true}
-        mouseRadius={1.5}
-        colorNum={4}
-        waveAmplitude={0.4}
-        waveFrequency={12}
-        waveSpeed={0.01}
-        backgroundColor={[255, 0, 0]}
-      />
       <Group
         className="playground-filter-scroll"
         data-md-up={isMdUp}
@@ -169,6 +75,8 @@ export default function PlaygroundItemFiltersPanel({
           position: "relative",
           zIndex: 1,
         }}
+        mt="sm"
+        p="0"
       >
         {!isMdUp && (
           <Group
@@ -196,91 +104,83 @@ export default function PlaygroundItemFiltersPanel({
         )}
         <Collapse
           expanded={mobileFiltersOpen || isMdUp}
-          className="playground-filter-collapse"
+          style={{
+            width: "100%",
+          }}
         >
           <Group
-            id="playground-filter-controls"
-            className="playground-filter-bar"
+            style={{
+              width: "100%",
+            }}
             gap={6}
           >
-            <MultiSelect
-              className="playground-filter-control playground-filter-tags"
-              placeholder="Tags"
-              data={tags}
-              value={value.tags}
-              onChange={(selectedTags) =>
-                onChange({ ...value, tags: selectedTags })
-              }
-              searchable
-              clearable
-              aria-label="Tags"
-              comboboxProps={{ withinPortal: true, shadow: "md" }}
-            />
-            <Select
-              className="playground-filter-control playground-filter-category"
-              placeholder="Category"
-              data={categories}
-              value={value.category}
-              onChange={(category) => onChange({ ...value, category })}
-              searchable
-              clearable
-              aria-label="Category"
-              comboboxProps={{ withinPortal: true, shadow: "md" }}
-            />
-            <TextInput
-              className="playground-filter-control playground-filter-name"
-              placeholder="Name"
-              value={value.name}
-              onChange={(event) =>
-                onChange({ ...value, name: event.currentTarget.value })
-              }
-              aria-label="Name"
-            />
-            <DatePickerInput
-              className="playground-filter-control playground-filter-date"
-              type="range"
-              placeholder="From date – To date"
-              value={[value.startDate || null, value.endDate || null]}
-              onChange={([startDate, endDate]) =>
-                onChange({
-                  ...value,
-                  startDate: startDate ?? "",
-                  endDate: endDate ?? "",
-                })
-              }
-              clearable
-              aria-label="From date to To date"
-              valueFormat="MMM D, YYYY"
-              popoverProps={{ withinPortal: true, shadow: "md" }}
-            />
-            <div className="playground-filter-spacer" />
-            {hasActiveFilters && (
-              <>
-                <Badge className="playground-filter-count" circle>
-                  {resultCount}
-                </Badge>
-                <Button
-                  className="playground-filter-reset"
-                  variant="default"
-                  onClick={() =>
+            <Grid
+              style={{
+                width: "100%",
+              }}
+            >
+              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+                <MultiSelect
+                  placeholder="Tags"
+                  leftSection={<IconTags size={16} aria-hidden="true" />}
+                  data={tags}
+                  value={value.tags}
+                  onChange={(selectedTags) =>
+                    onChange({ ...value, tags: selectedTags })
+                  }
+                  searchable
+                  clearable
+                  aria-label="Tags"
+                  comboboxProps={{ withinPortal: true, shadow: "md" }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+                <Select
+                  placeholder="Category"
+                  leftSection={<IconCategory size={16} aria-hidden="true" />}
+                  data={categories}
+                  value={value.category}
+                  onChange={(category) => onChange({ ...value, category })}
+                  searchable
+                  clearable
+                  aria-label="Category"
+                  comboboxProps={{ withinPortal: true, shadow: "md" }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+                <TextInput
+                  placeholder="Name"
+                  leftSection={<IconSearch size={16} aria-hidden="true" />}
+                  value={value.name}
+                  onChange={(event) =>
+                    onChange({ ...value, name: event.currentTarget.value })
+                  }
+                  aria-label="Name"
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+                <DatePickerInput
+                  type="range"
+                  placeholder="From date – To date"
+                  leftSection={<IconCalendar size={16} aria-hidden="true" />}
+                  value={[value.startDate || null, value.endDate || null]}
+                  onChange={([startDate, endDate]) =>
                     onChange({
-                      tags: [],
-                      category: null,
-                      name: "",
-                      startDate: "",
-                      endDate: "",
+                      ...value,
+                      startDate: startDate ?? "",
+                      endDate: endDate ?? "",
                     })
                   }
-                >
-                  Reset filters <span aria-hidden="true">↶</span>
-                </Button>
-              </>
-            )}
+                  clearable
+                  aria-label="From date to To date"
+                  valueFormat="MMM D, YYYY"
+                  popoverProps={{ withinPortal: true, shadow: "md" }}
+                />
+              </Grid.Col>
+            </Grid>
           </Group>
+          {!isMdUp && <Divider mt="md" mb="md" />}
         </Collapse>
-      </Group>
-      <Group justify="space-between">
-        {isMdUp && <PlaygroundItemFilterSummary filters={value} />}
       </Group>
     </Stack>
   );

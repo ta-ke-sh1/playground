@@ -1,0 +1,87 @@
+.collections-page {
+  position: relative;
+  isolation: isolate;
+  padding-inline: clamp(12px, 2vw, 28px);
+}
+
+.collections-toolbar {
+  width: min(100%, 1120px);
+  margin: 0 auto 16px;
+  padding: 12px;
+  gap: 12px;
+  border: 1px solid
+    color-mix(in srgb, var(--mantine-color-default-border) 78%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--mantine-color-body) 78%, transparent);
+  box-shadow: var(--mantine-shadow-sm);
+  backdrop-filter: blur(14px);
+}
+
+.collections-toolbar__previous,
+.collections-toolbar__next {
+  flex: 1 1 180px;
+}
+
+.collections-toolbar__previous {
+  justify-content: flex-start;
+}
+
+.collections-toolbar__next {
+  justify-content: flex-end;
+}
+
+.collections-toolbar__current {
+  color: var(--mantine-color-text);
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-style: italic;
+  text-align: center;
+}
+
+.collections-toolbar__button.mantine-Button-root {
+  min-height: 42px;
+  padding-inline: 14px;
+  border-color: var(--mantine-color-default-border);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--mantine-color-body) 62%, transparent);
+  color: var(--mantine-color-text);
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.collections-toolbar__button .mantine-Button-section {
+  color: var(--mantine-color-orange-6);
+}
+
+.collections-toolbar__button.mantine-Button-root:hover {
+  transform: translateY(-1px);
+  border-color: var(--mantine-color-orange-6);
+  background: var(--mantine-color-default-hover);
+}
+
+@media (max-width: 600px) {
+  .collections-toolbar {
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .collections-toolbar__previous,
+  .collections-toolbar__next {
+    flex: 1 1 calc(50% - 8px);
+  }
+
+  .collections-toolbar__previous .collections-toolbar__button,
+  .collections-toolbar__next .collections-toolbar__button {
+    width: 100%;
+  }
+
+  .collections-toolbar__current {
+    order: -1;
+    flex: 1 1 100%;
+  }
+}

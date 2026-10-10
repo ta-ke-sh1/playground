@@ -1,3 +1,13 @@
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
 .crystal-canvas canvas {
   width: 100dvw !important;
   height: 100dvh !important;
@@ -184,6 +194,152 @@
   box-shadow: var(--mantine-shadow-md);
 }
 
+.collection-date-card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 18dvh;
+  min-height: 100px;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 14px 16px;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: 10px;
+  background-color: color-mix(
+    in srgb,
+    var(--mantine-color-body) 88%,
+    transparent
+  );
+  background-position: center;
+  background-size: cover;
+  color: var(--mantine-color-text);
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.collection-date-card:not(:disabled) {
+  cursor: pointer;
+}
+
+.collection-date-card:not(:disabled):hover {
+  transform: translateY(-2px);
+  border-color: var(--mantine-color-orange-6);
+  box-shadow: var(--mantine-shadow-md);
+}
+
+.collection-date-card:focus-visible {
+  outline: 2px solid var(--mantine-color-orange-6);
+  outline-offset: 2px;
+}
+
+.collection-date-card__content {
+  width: 100%;
+  min-width: 0;
+}
+
+.collection-date-card__meta,
+.collection-date-card__footer {
+  width: 100%;
+  min-width: 0;
+}
+
+.collection-date-card__badge,
+.collection-date-card__count {
+  min-width: 0;
+  gap: 6px;
+  padding: 4px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 6px;
+  background: rgba(24, 25, 28, 0.44);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.collection-date-card__badge {
+  max-width: calc(100% - 65px);
+}
+
+.collection-date-card__badge svg {
+  flex: 0 0 auto;
+  color: var(--mantine-color-orange-4);
+}
+
+.collection-date-card__badge .mantine-Text-root,
+.collection-date-card__count .mantine-Text-root {
+  overflow: hidden;
+  font-family: "DM Mono", monospace;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.collection-date-card__count {
+  flex: 0 0 auto;
+}
+
+.collection-date-card__day {
+  color: rgba(255, 255, 255, 0.96);
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.15;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.22);
+}
+
+.collection-date-card__link {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 50%;
+  background: rgba(24, 25, 28, 0.42);
+  color: rgba(255, 255, 255, 0.9);
+  transition:
+    transform 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+  backdrop-filter: blur(8px);
+}
+
+.collection-date-card:not(:disabled):hover .collection-date-card__link {
+  transform: translate(2px, -2px);
+  border-color: var(--mantine-color-orange-4);
+  background: rgba(24, 25, 28, 0.62);
+  color: var(--mantine-color-orange-4);
+}
+
+.collection-date-card[data-has-data="false"] {
+  background-image: radial-gradient(
+    circle at 100% 0,
+    color-mix(in srgb, var(--mantine-color-orange-1) 50%, transparent),
+    transparent 58%
+  ) !important;
+}
+
+.collection-date-card[data-has-data="false"] .collection-date-card__badge {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--mantine-color-dimmed);
+  backdrop-filter: none;
+}
+
+.collection-date-card[data-has-data="false"] .collection-date-card__badge svg {
+  color: var(--mantine-color-dimmed);
+}
+
+.collection-date-card[data-has-data="false"] .collection-date-card__day {
+  color: var(--mantine-color-text);
+  text-shadow: none;
+}
+
 .playground-item-image {
   position: relative;
 }
@@ -221,8 +377,6 @@
 .playground-filter-scroll {
   width: 100%;
   min-width: 0;
-  margin-bottom: 18px;
-  padding: 6px 6px;
   border-radius: 0;
   background: transparent !important;
 }

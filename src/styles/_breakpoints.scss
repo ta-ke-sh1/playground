@@ -1,0 +1,11 @@
+// Keep these tokens aligned with MANTINE_BREAKPOINTS in breakpoints.ts.
+$xs: 36em;
+$sm: 48em;
+$md: 62em;
+$lg: 75em;
+$xl: 88em;
+
+// Height-only compact-layout thresholds use em so they scale with text settings.
+$compact-height: 45em;
+$short-height: 42.5em;
+$close-control-height: 26.25em;

@@ -7,14 +7,17 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import MainLayout from "./layouts/main.layout";
 
+import { ReactLenis } from "lenis/react";
+
+import "lenis/dist/lenis.css";
 import "@mantine/core/styles.css";
-import '@mantine/notifications/styles.css';
+import "@mantine/notifications/styles.css";
 import "@mantine/dates/styles.css";
 import "@fontsource/libre-baskerville/400.css"; // Specify weight
 import "@fontsource/libre-baskerville/400-italic.css"; // Specify weight and style
 import "@fontsource/dm-sans/400.css";
 import "@fontsource/dm-sans/500.css";
-import "./styles/app.css"
+import "./styles/app.css";
 import CrystalLayout from "./layouts/crystal/crystal.layout";
 import ShortestPathLayout from "./layouts/shortest_path/shortest_path.layout";
 import { Notifications } from "@mantine/notifications";
@@ -47,8 +50,9 @@ function App() {
   return (
     <MantineProvider
       defaultColorScheme="light"
-      theme={{ fontFamily: "DM Sans, sans-serif" }}
+      theme={{ fontFamily: "DM Mono, monospace" }}
     >
+      <ReactLenis root />
       <Notifications />
       <BrowserRouter>
         <SpeedInsights />
