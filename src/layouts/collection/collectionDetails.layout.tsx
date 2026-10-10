@@ -17,9 +17,7 @@ import type { CollectionItemEntity } from "../../models/entity/collection.model"
 import {
   IconChevronDown,
   IconChevronLeft,
-  IconFile,
   IconSearch,
-  IconTag,
   IconX,
 } from "@tabler/icons-react";
 import { CollectionItemCard } from "../../components/card/collectionItem.card.tsx";

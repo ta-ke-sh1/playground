@@ -4,6 +4,23 @@
   padding-inline: clamp(12px, 2vw, 28px);
 }
 
+.collections-title__flower {
+  transform-origin: center;
+  animation: collections-flower-rotation 12s linear infinite;
+}
+
+@keyframes collections-flower-rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collections-title__flower {
+    animation: none;
+  }
+}
+
 .collections-toolbar {
   width: min(100%, 1120px);
   margin: 0 auto 16px;

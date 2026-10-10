@@ -6,6 +6,7 @@ import {
   Text,
   Stack,
   SegmentedControl,
+  Grid,
 } from "@mantine/core";
 import type { PlaygroundItem } from "../models/playgroundItem.model";
 import PlaygroundItemList from "../components/viewer/playground/playgrounItemList.viewer";
@@ -13,6 +14,7 @@ import PlaygroundItemFiltersPanel from "../components/viewer/playground/playgrou
 import type { PlaygroundItemFilters } from "../components/viewer/playground/playgroundItemFilters";
 import Dither from "../components/backgrounds/dither";
 import CollectionsLayout from "./collection/collections.layout";
+import { IconBrightnessDownFilled } from "@tabler/icons-react";
 
 const projects: PlaygroundItem[] = [
   {
@@ -189,23 +191,50 @@ function PlaygroundSite() {
   }, [filters]);
 
   return (
-    <Stack gap="xs" mb="40">
-      <Group
-        mt="sm"
-        style={{
-          width: "50%",
-        }}
-      >
-        <Text
-          style={{
-            textTransform: "uppercase",
-          }}
-        >
-          Little backyard playground site that I used to re-create, test, and
-          play on visual effects and newly accquired knowledge. All sources will
-          be credited inside the playground item details.
-        </Text>
-      </Group>
+    <Stack gap="xs" mt="lg" mb="40">
+      <Grid>
+        <Grid.Col span={{ base: 12, md: 2 }}>
+          <Title
+            style={{
+              fontFamily: "Libre Baskerville",
+              fontWeight: 200,
+              fontSize: "18px",
+            }}
+          >
+            Experiments and replications for study purposes{" "}
+          </Title>
+          <IconBrightnessDownFilled
+            className="collections-title__flower"
+            stroke={1}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 5 }}>
+          <Stack gap="xs">
+            <Text style={{ letterSpacing: "-1px" }}>
+              Little backyard playground site that I used to re-create, test,
+              and play on visual effects and newly accquired knowledge.
+            </Text>
+            <Text style={{ letterSpacing: "-1px" }}>
+              All sources will be credited inside the playground item details.
+            </Text>
+          </Stack>
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 5 }}>
+          <Stack gap="xs">
+            <Text style={{ letterSpacing: "-1px" }}>
+              I choose projects that spark my curiosity—sites with interactions,
+              visual details, or ideas I want to understand better. Recreating
+              them gives me a hands-on way to study what makes the experience
+              work.
+            </Text>
+            <Text style={{ letterSpacing: "-1px" }}>
+              These are experiments, not exact copies: I rebuild, play with
+              variations, and explore different techniques. Along the way, I
+              learn from the original and develop ideas of my own.
+            </Text>
+          </Stack>
+        </Grid.Col>
+      </Grid>
       <PlaygroundItemFiltersPanel
         items={projects}
         value={filters}
