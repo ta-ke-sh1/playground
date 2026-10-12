@@ -1,18 +1,18 @@
 import { Anchor, Grid, Stack, Text } from "@mantine/core";
 import { IconArrowUpRight } from "@tabler/icons-react";
+import HalftoneImage from "./halftone-image";
 
 export default function AboutLayout() {
   return (
     <main className="about-page" aria-labelledby="about-page-title">
       <Grid columns={15} mb="xl" mt="lg">
-        <Grid.Col span={{ base: 15, md: 3 }} style={{
-            width: '100%'
-          }}>
-            <div style={{
-              height: 'clamp(200px, 30vw, 400px)',
-              backgroundColor: '#f0f0f0',
-              borderRadius: '8px',
-            }}></div>
+        <Grid.Col
+          span={{ base: 15, md: 3 }}
+          style={{
+            width: "100%",
+          }}
+        >
+          <HalftoneImage />
         </Grid.Col>
         <Grid.Col span={{ base: 15, md: 1 }}>
         </Grid.Col>
