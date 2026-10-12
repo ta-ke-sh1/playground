@@ -9,7 +9,6 @@ import {
   Stack,
   Text,
   TextInput,
-  UnstyledButton,
   useMantineTheme,
   Grid,
 } from "@mantine/core";
@@ -199,10 +198,13 @@ export default function PlaygroundItemFiltersPanel({
                         radius="sm"
                         key={`playground-tag-${tag}`}
                         color="orange"
-                        variant="light"
+                        variant={isActive ? "filled" : "light"}
                         data-active={isActive}
                         aria-pressed={isActive}
                         onClick={() => toggleTag(tag)}
+                        style={{
+                          margin: '2px 0px'
+                        }}
                       >
                         {tag}
                       </Badge>

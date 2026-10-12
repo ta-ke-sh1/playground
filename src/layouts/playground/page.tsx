@@ -1,19 +1,9 @@
 import { useMemo, useState } from "react";
-import {
-  Container,
-  Group,
-  Title,
-  Text,
-  Stack,
-  SegmentedControl,
-  Grid,
-} from "@mantine/core";
-import type { PlaygroundItem } from "../models/playgroundItem.model";
-import PlaygroundItemList from "../components/viewer/playground/playgrounItemList.viewer";
-import PlaygroundItemFiltersPanel from "../components/viewer/playground/playgroundItemFilters";
-import type { PlaygroundItemFilters } from "../components/viewer/playground/playgroundItemFilters";
-import Dither from "../components/backgrounds/dither";
-import CollectionsLayout from "./collection/collections.layout";
+import { Grid, Stack, Text, Title } from "@mantine/core";
+import type { PlaygroundItem } from "../../models/playgroundItem.model";
+import PlaygroundItemList from "../../components/viewer/playground/playgrounItemList.viewer";
+import PlaygroundItemFiltersPanel from "../../components/viewer/playground/playgroundItemFilters";
+import type { PlaygroundItemFilters } from "../../components/viewer/playground/playgroundItemFilters";
 import { IconBrightnessDownFilled } from "@tabler/icons-react";
 
 const projects: PlaygroundItem[] = [
@@ -55,107 +45,19 @@ const projects: PlaygroundItem[] = [
       "An interactive shortest-path and maze visualizer with BFS, DFS, A*, randomized maze generation, and animated pathfinding.",
     url: "/shortest-path",
   },
+  {
+    name: "Infinite Zoom Scrolling",
+    images: ["/projects/infinite_zoom/1.png", "/projects/infinite_zoom/2.png", "/projects/infinite_zoom/3.png"],
+    tags: ["TypeScript", "GSAP", "Scroll", "Interactive"],
+    category: "Simulation",
+    date: "2026-10-12",
+    description:
+      "An interactive infinite zoom scrolling experience: scroll to continuously zoom into a scene with smooth animations and dynamic content.",
+    url: "/infinite-zoom",
+  },
 ];
 
-enum SITE_MODES {
-  Playground = "Playground",
-  Curated = "Curated",
-}
-
-export default function MainLayout() {
-  const [mode, setMode] = useState<SITE_MODES>(SITE_MODES.Playground);
-
-  return (
-    <Container
-      fluid
-      className="main-container"
-      mt="25"
-      style={{
-        minHeight: "100dvh",
-        paddingBottom: "20px",
-        position: "relative",
-      }}
-    >
-      <Group
-        justify="center"
-        mb="sm"
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 100,
-        }}
-      >
-        <SegmentedControl
-          value={mode}
-          onChange={(value) => setMode(value)}
-          data={Object.values(SITE_MODES)}
-        />
-      </Group>
-      <Group
-        align="flex-end"
-        gap={5}
-        style={{
-          position: "absolute",
-          left: 42,
-          top: "105px",
-          zIndex: 10,
-        }}
-      >
-        <Title
-          style={{
-            fontFamily: "Libre Baskerville, serif",
-            fontStyle: "italic",
-            fontSize: "32px",
-            fontWeight: "200",
-            color: "white",
-            userSelect: "none",
-          }}
-        >
-          {mode}
-        </Title>
-        <Title
-          style={{
-            fontFamily: "DM Mono, monospace",
-            fontSize: "14px",
-            fontWeight: "200",
-            transform: "translateY(-6px)",
-            color: "white",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            window.open("https://trung-ha-26.vercel.app/", "_blank");
-          }}
-        >
-          (by trung.ha)
-        </Title>
-      </Group>
-      <Dither
-        waveColor={
-          mode === SITE_MODES.Playground ? [0.5, 0.5, 0] : [0.9, 0.2, 1]
-        }
-        disableAnimation={false}
-        enableMouseInteraction={false}
-        mouseRadius={1.5}
-        colorNum={4}
-        waveAmplitude={0.4}
-        waveFrequency={4}
-        waveSpeed={1}
-        backgroundColor={
-          mode === SITE_MODES.Playground ? [255, 0, 0] : [0, 0, 255]
-        }
-      />
-      {mode === SITE_MODES.Playground ? (
-        <PlaygroundSite />
-      ) : (
-        <CollectionsLayout />
-      )}
-    </Container>
-  );
-}
-
-function PlaygroundSite() {
+export default function PlaygroundPage() {
   const [filters, setFilters] = useState<PlaygroundItemFilters>({
     tags: [],
     category: null,

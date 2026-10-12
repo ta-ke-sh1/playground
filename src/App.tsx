@@ -1,11 +1,8 @@
-import type { JSX } from "react";
-
-import { MantineProvider } from "@mantine/core";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GardenLayout from "./layouts/garden/garden.layout";
+import { lazy, Suspense } from "react";
+import { Center, Loader, MantineProvider } from "@mantine/core";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import MainLayout from "./layouts/main.layout";
 
 import { ReactLenis } from "lenis/react";
 
@@ -15,36 +12,35 @@ import "@mantine/notifications/styles.css";
 import "@mantine/dates/styles.css";
 import "@fontsource/libre-baskerville/400.css"; // Specify weight
 import "@fontsource/libre-baskerville/400-italic.css"; // Specify weight and style
+import "@fontsource/libre-baskerville/700-italic.css";
 import "@fontsource/dm-sans/400.css";
 import "@fontsource/dm-sans/500.css";
 import "./styles/app.css";
-import CrystalLayout from "./layouts/crystal/crystal.layout";
-import ShortestPathLayout from "./layouts/shortest_path/shortest_path.layout";
 import { Notifications } from "@mantine/notifications";
 
-type RouteItem = {
-  element: JSX.Element;
-  path: string;
-};
+const MainLayout = lazy(() => import("./layouts/layout"));
+const PlaygroundPage = lazy(() => import("./layouts/playground/page"));
+const CuratedLayout = lazy(() => import("./layouts/curated/layout"));
+const CollectionsPage = lazy(() => import("./layouts/curated/page"));
+const CollectionDetail = lazy(
+  () => import("./layouts/curated/collection-details"),
+);
+const AboutLayout = lazy(() => import("./layouts/about/page"));
+const GardenLayout = lazy(() => import("./layouts/playground/garden/page"));
+const CrystalLayout = lazy(() => import("./layouts/playground/crystal/page"));
+const ShortestPathLayout = lazy(() => import("./layouts/playground/shortest-path/page"));
+const InfiniteZoomLayout = lazy(() => import("./layouts/playground/zoom/page"));
 
-const routes: RouteItem[] = [
-  {
-    path: "/*",
-    element: <MainLayout />,
-  },
-  {
-    path: "/garden",
-    element: <GardenLayout />,
-  },
-  {
-    path: "/crystal",
-    element: <CrystalLayout />,
-  },
-  {
-    path: "/shortest-path",
-    element: <ShortestPathLayout />,
-  },
-];
+function RouteLenis() {
+  const { pathname } = useLocation();
+
+  return (
+    <ReactLenis
+      root
+      options={{ infinite: pathname === "/playground/infinite-zoom" }}
+    />
+  );
+}
 
 function App() {
   return (
@@ -52,16 +48,34 @@ function App() {
       defaultColorScheme="light"
       theme={{ fontFamily: "DM Mono, monospace" }}
     >
-      <ReactLenis root />
       <Notifications />
       <BrowserRouter>
+        <RouteLenis />
         <SpeedInsights />
         <Analytics />
-        <Routes>
-          {routes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
-        </Routes>
+        <Suspense
+          fallback={
+            <Center h="100dvh" role="status">
+              <Loader size="sm" aria-label="Loading page" />
+            </Center>
+          }
+        >
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route index element={<PlaygroundPage />} />
+              <Route path="curated" element={<CuratedLayout />}>
+                <Route index element={<CollectionsPage />} />
+                <Route path=":id" element={<CollectionDetail />} />
+              </Route>
+              <Route path="about" element={<AboutLayout />} />
+            </Route>
+            <Route path="/playground/garden" element={<GardenLayout />} />
+            <Route path="/playground/crystal" element={<CrystalLayout />} />
+            <Route path="/playground/shortest-path" element={<ShortestPathLayout />} />
+            <Route path="/playground/infinite-zoom" element={<InfiniteZoomLayout />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </MantineProvider>
   );

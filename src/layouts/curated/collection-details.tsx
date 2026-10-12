@@ -12,6 +12,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { useNavigate, useParams } from "react-router-dom";
 import CollectionService from "../../services/collection.service.ts";
 import type { CollectionItemEntity } from "../../models/entity/collection.model";
 import {
@@ -22,7 +23,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { CollectionItemCard } from "../../components/card/collectionItem.card.tsx";
-import "./collectionDetails.layout.scss";
+import "./collection-details.scss";
 
 const SORT_OPTIONS = [
   { value: "name-asc", label: "Name (A–Z)" },
@@ -38,7 +39,9 @@ const FIELD_CLASSNAMES = {
   section: "folio-section",
 };
 
-export default function CollectionDetailsLayout({ id, setSelectedData }: any) {
+export default function CollectionDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState<CollectionItemEntity[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState<string | null>("name-asc");
@@ -131,7 +134,7 @@ export default function CollectionDetailsLayout({ id, setSelectedData }: any) {
   }, [id]);
 
   const handleReturn = () => {
-    setSelectedData(undefined);
+    navigate("/curated");
   };
 
   return (

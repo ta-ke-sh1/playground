@@ -8,7 +8,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import {
   ActionIcon,
-  Badge,
   Box,
   Button,
   Group,
@@ -21,7 +20,7 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-export const PALETTES = [
+const PALETTES = [
   ["Sunset", "#577590", "#F94144", "#43AA8B", "#F9C74F", "#FFF8EB"],
   ["Electric Orchid", "#160A2A", "#D000FF", "#00E5A8", "#FF5CC8", "#FFF0FF"],
   ["Arctic Flame", "#102A43", "#FF4D6D", "#00C2A8", "#FFD166", "#F1FAFF"],
@@ -202,6 +201,8 @@ export default function ShortestPathLayout() {
   const [draggingToolbar, setDraggingToolbar] = useState(false);
   const [toolbarCollapsed, setToolbarCollapsed] = useState(false);
   const paintingWalls = useRef(false);
+  const gridDimensionsRef = useRef(DEFAULT_GRID_DIMENSIONS);
+  const previousCellSize = useRef(cellSize);
   const toolbarDrag = useRef<{
     startX: number;
     startY: number;
@@ -252,13 +253,26 @@ export default function ShortestPathLayout() {
       const nextColumns = Math.max(8, Math.floor(width / minimumCellSize));
       const nextRows = Math.max(8, Math.floor(height / minimumCellSize));
       const nextCellSize = Math.min(width / nextColumns, height / nextRows);
-      setGridDimensions((currentDimensions) =>
-        currentDimensions.rows === nextRows &&
-        currentDimensions.columns === nextColumns
-          ? currentDimensions
-          : { rows: nextRows, columns: nextColumns },
-      );
+      const dimensionsChanged =
+        gridDimensionsRef.current.rows !== nextRows ||
+        gridDimensionsRef.current.columns !== nextColumns;
+      const cellSizeChanged = previousCellSize.current !== cellSize;
+
+      if (dimensionsChanged) {
+        gridDimensionsRef.current = { rows: nextRows, columns: nextColumns };
+        setGridDimensions(gridDimensionsRef.current);
+      }
+      previousCellSize.current = cellSize;
       setGridCellSize(nextCellSize);
+
+      if (dimensionsChanged || cellSizeChanged) {
+        setGrid(createGrid(nextRows, nextColumns));
+        setStartIndex(null);
+        setFinishIndex(null);
+        setMode("start");
+        paintingWalls.current = false;
+        setStatus("Place a start node to begin.");
+      }
     };
 
     const observer = new ResizeObserver(updateGridSize);
@@ -266,15 +280,6 @@ export default function ShortestPathLayout() {
     updateGridSize();
     return () => observer.disconnect();
   }, [cellSize]);
-
-  useEffect(() => {
-    setGrid(createGrid(gridDimensions.rows, gridDimensions.columns));
-    setStartIndex(null);
-    setFinishIndex(null);
-    setMode("start");
-    paintingWalls.current = false;
-    setStatus("Place a start node to begin.");
-  }, [gridDimensions, cellSize]);
 
   const handleToolbarPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     event.currentTarget.setPointerCapture(event.pointerId);

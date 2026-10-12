@@ -20,7 +20,47 @@ html {
 }
 
 .dither-container canvas {
+  position: absolute;
+  inset: 0;
   display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.main-dither-section {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.main-dither-title {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  z-index: 1;
+}
+
+.about-page__link-icon {
+  margin-left: 4px;
+  transition: transform 180ms ease;
+}
+
+.about-page__link:hover .about-page__link-icon,
+.about-page__link:focus-visible .about-page__link-icon {
+  transform: translate(2px, -2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page__link-icon {
+    transition: none;
+  }
+
+  .about-page__link:hover .about-page__link-icon,
+  .about-page__link:focus-visible .about-page__link-icon {
+    transform: none;
+  }
 }
 
 .playground-filter-panel > .dither-container {
@@ -182,16 +222,168 @@ html {
 }
 
 .playground-item-card {
-  border: 1px solid
-    color-mix(in srgb, rgba(255, 19, 11, 0.363) 50%, transparent);
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
+  overflow: visible;
+  border: 0;
+  background: transparent;
 }
 
-.playground-item-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--mantine-shadow-md);
+.playground-item-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2;
+  border-radius: 5px;
+  background: var(--mantine-color-default);
+}
+
+.playground-item-image-link {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: inherit;
+}
+
+.playground-item-image-link::after {
+  position: absolute;
+  z-index: 1;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(12, 15, 14, 0.58));
+  content: "";
+  pointer-events: none;
+}
+
+.playground-item-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: grayscale(1);
+  object-fit: cover;
+  transition: filter 450ms ease, transform 450ms ease;
+}
+
+.playground-item-image-link:hover img,
+.playground-item-image-link:focus-visible img {
+  filter: grayscale(0);
+  transform: scale(1.035);
+}
+
+.playground-item-tags {
+  position: absolute;
+  z-index: 2;
+  right: 48px;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.playground-item-tag {
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  background: rgba(16, 20, 18, 0.64);
+  color: white;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.playground-item-content {
+  padding: 12px 1px 0;
+}
+
+.playground-item-title {
+  margin: 0;
+  font-family: "Libre Baskerville", serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.playground-item-description {
+  color: var(--mantine-color-dimmed);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.playground-item-details {
+  margin-top: 3px;
+}
+
+.playground-item-category,
+.playground-item-date {
+  color: var(--mantine-color-dimmed);
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.playground-pagination {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 26px auto 0;
+}
+
+.playground-pagination-button.mantine-Button-root {
+  min-height: 42px;
+  padding-inline: 14px;
+  border-color: var(--mantine-color-default-border);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--mantine-color-body) 62%, transparent);
+  color: var(--mantine-color-text);
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.playground-pagination-button .mantine-Button-section {
+  color: var(--mantine-color-orange-6);
+}
+
+.playground-pagination-button.mantine-Button-root:disabled {
+  border-color: color-mix(
+    in srgb,
+    var(--mantine-color-default-border) 55%,
+    transparent
+  );
+  background: color-mix(in srgb, var(--mantine-color-default) 68%, transparent);
+  color: var(--mantine-color-dimmed);
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.playground-pagination-button.mantine-Button-root:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--mantine-color-orange-6);
+  background: var(--mantine-color-default-hover);
+}
+
+.playground-pagination-previous {
+  justify-self: start;
+}
+
+.playground-pagination-pages {
+  justify-self: center;
+  margin: 0;
+}
+
+.playground-pagination-next {
+  justify-self: end;
+}
+
+.playground-item-empty {
+  padding: 32px 0;
+  color: var(--mantine-color-dimmed);
 }
 
 .collection-date-card {
@@ -385,37 +577,29 @@ html {
   text-shadow: none;
 }
 
-.playground-item-image {
-  position: relative;
-}
-
 .playground-item-arrow {
   position: absolute;
+  z-index: 2;
   top: 10px;
   right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   color: white;
-  cursor: pointer;
-  font: inherit;
-  line-height: 1;
-  text-align: center;
-  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: rgba(16, 20, 18, 0.38);
   transition:
     transform 180ms ease,
     background-color 180ms ease;
-  font-size: 32px;
+  backdrop-filter: blur(8px);
 }
 
-.playground-item-arrow:hover {
-  background: var(--mantine-color-body);
-}
-
-.playground-item-image img:hover + .playground-item-arrow {
+.playground-item-image-link:hover .playground-item-arrow,
+.playground-item-image-link:focus-visible .playground-item-arrow {
   transform: rotate(45deg);
 }
 
@@ -526,8 +710,6 @@ html {
   padding: 6px 10px;
   border: 1px solid var(--mantine-color-default-border);
   border-radius: 7px;
-  background: color-mix(in srgb, var(--mantine-color-body) 76%, transparent);
-  color: var(--mantine-color-text);
   cursor: pointer;
   font-family: "DM Mono", monospace;
   font-size: 11px;
@@ -539,21 +721,17 @@ html {
 
 .playground-filter-tag:hover {
   transform: translateY(-1px);
-  border-color: var(--mantine-color-violet-6);
+  border-color: var(--mantine-color-orange-6);
 }
 
 .playground-filter-tag:focus-visible {
-  outline: 2px solid var(--mantine-color-violet-6);
+  outline: 2px solid var(--mantine-color-orange-6);
   outline-offset: 2px;
 }
 
 .playground-filter-tag[data-active="true"] {
-  border-color: var(--mantine-color-violet-6);
-  background: color-mix(
-    in srgb,
-    var(--mantine-color-violet-6) 14%,
-    var(--mantine-color-body)
-  );
+  border-color: var(--mantine-color-orange-6);
+  font-weight: 700;
 }
 
 .playground-filter-tag__count {

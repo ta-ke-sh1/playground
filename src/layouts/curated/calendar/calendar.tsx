@@ -7,7 +7,6 @@ interface CalendarProps {
   data: CollectionEntity[];
   year: number;
   month: number;
-  setSelectedData: any;
 }
 
 interface CalendarDay {
@@ -19,7 +18,6 @@ export default function Calendar({
   data,
   year,
   month,
-  setSelectedData,
 }: CalendarProps): JSX.Element {
   // Index of the first day of the week (0 = Sunday, 1 = Monday, etc.)
   const dayOfWeekIndex = new Date(year, month, 1).getDay();
@@ -69,7 +67,7 @@ export default function Calendar({
               p={data.date ? "5" : 0}
             >
               {index > dayOfWeekIndex - 1 && (
-                <DateCard setSelectedData={setSelectedData} data={data} />
+                <DateCard data={data} />
               )}
             </Grid.Col>
           );
