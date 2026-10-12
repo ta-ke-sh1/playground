@@ -147,6 +147,7 @@ export default function HalftoneImage({
         src={src}
         alt="Portrait of the artist sitting at a computer"
       /> */}
+
       <Canvas
         className="about-page__image-canvas"
         aria-hidden="true"
