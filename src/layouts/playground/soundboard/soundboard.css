@@ -1,0 +1,857 @@
+.soundboard-app {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 44% 48%, rgba(78, 127, 134, 0.14), transparent 32%),
+    #101211;
+  background-size: 8px 8px, 8px 8px, auto;
+  color: #d9ddd2;
+  min-height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
+.soundboard-grain-2 {
+  background-size: 6px 6px, 6px 6px, auto;
+}
+
+.soundboard-grain-3 {
+  background-size: 10px 10px, 10px 10px, auto;
+}
+
+.soundboard-grain-4 {
+  background-size: 14px 14px, 14px 14px, auto;
+}
+
+.soundboard-page {
+  padding: 92px 24px 56px;
+  font-family: "DM Mono", monospace;
+  position: relative;
+  z-index: 1;
+}
+
+.soundboard-heading h1 {
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+
+.soundboard-heading p {
+  font-size: 0.8rem;
+}
+
+.soundboard-step-count {
+  color: var(--mantine-color-orange-7);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.soundboard-panel {
+  background: rgba(10, 13, 12, 0.66);
+  border-color: rgba(214, 220, 202, 0.18);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
+}
+
+.soundboard-controls {
+  border-bottom: 1px solid rgba(214, 220, 202, 0.22);
+  padding-bottom: 18px;
+}
+
+.soundboard-controls button,
+.soundboard-controls input,
+.soundboard-reference-controls input,
+.soundboard-reference-controls button {
+  font-family: "DM Mono", monospace;
+}
+
+.soundboard-app .mantine-Button-root {
+  color: #e1e4d5;
+}
+
+.soundboard-app .mantine-ActionIcon-root {
+  color: #c8d0c1;
+}
+
+/* Subtle buttons: replace Mantine's light-gray hover with the orange accent on dark. */
+.soundboard-app .mantine-Button-root[data-variant="subtle"],
+.soundboard-app .mantine-ActionIcon-root[data-variant="subtle"] {
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:hover,
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:focus-visible,
+.soundboard-app .mantine-ActionIcon-root[data-variant="subtle"]:hover,
+.soundboard-app .mantine-ActionIcon-root[data-variant="subtle"]:focus-visible,
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:hover .mantine-Button-label,
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:hover .mantine-Button-section,
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:focus-visible .mantine-Button-label,
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:focus-visible .mantine-Button-section {
+  color: #ff6a4f;
+}
+
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:hover,
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:focus-visible,
+.soundboard-app .mantine-ActionIcon-root[data-variant="subtle"]:hover,
+.soundboard-app .mantine-ActionIcon-root[data-variant="subtle"]:focus-visible {
+  background-color: rgba(241, 71, 41, 0.16) !important;
+  outline: none;
+}
+
+.soundboard-app .mantine-Button-root[data-variant="subtle"]:disabled {
+  background-color: transparent !important;
+  color: rgba(225, 228, 213, 0.35);
+}
+
+.soundboard-app .soundboard-play-button.is-playing {
+  background: #f14729;
+  border-color: #f14729;
+  color: #151815;
+}
+
+.soundboard-app .soundboard-play-button.is-playing:hover {
+  background: #ff5b3f;
+  border-color: #ff5b3f;
+}
+
+.soundboard-app .soundboard-play-button:not(.is-playing),
+.soundboard-app .soundboard-play-button:not(.is-playing):hover {
+  color: #1b211d;
+}
+
+.soundboard-app .soundboard-play-button:not(.is-playing):hover {
+  background: #ffd8a8;
+}
+
+.soundboard-app .soundboard-play-button:not(.is-playing) .mantine-Button-label,
+.soundboard-app .soundboard-play-button:not(.is-playing) .mantine-Button-section {
+  color: #1b211d;
+}
+
+.soundboard-app .soundboard-play-button.is-playing .mantine-Button-label,
+.soundboard-app .soundboard-play-button.is-playing .mantine-Button-section {
+  color: #151815;
+}
+
+.soundboard-app .mantine-NumberInput-input,
+.soundboard-app .mantine-Select-input {
+  background: #171b18;
+  border-color: rgba(214, 220, 202, 0.3);
+  color: #e1e4d5;
+}
+
+.soundboard-app .mantine-InputWrapper-label,
+.soundboard-app .mantine-InputWrapper-description,
+.soundboard-app .mantine-Text-root {
+  color: #c2cabe;
+}
+
+.soundboard-app .mantine-Button-label,
+.soundboard-app .mantine-Select-input,
+.soundboard-app .mantine-NumberInput-input {
+  color: #e1e4d5;
+}
+
+.soundboard-reference-controls {
+  align-items: center;
+  color: #aeb8a7;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.soundboard-reference-title {
+  color: #e1e4d5;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.soundboard-level-control {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.55rem;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.soundboard-key-control {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.55rem;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.soundboard-piano {
+  height: 32px;
+  position: relative;
+  width: 126px;
+}
+
+.soundboard-piano-white-keys,
+.soundboard-piano-black-keys {
+  display: flex;
+  height: 100%;
+  inset: 0;
+  position: absolute;
+}
+
+.soundboard-piano-black-keys {
+  pointer-events: none;
+}
+
+.soundboard-piano-key {
+  align-items: flex-end;
+  border: 1px solid rgba(214, 220, 202, 0.3);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-size: 0.43rem;
+  justify-content: center;
+  letter-spacing: 0;
+  padding: 0 0 3px;
+  transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+}
+
+.soundboard-piano-key:focus-visible {
+  outline: 1px solid #e1e4d5;
+  outline-offset: 1px;
+  z-index: 2;
+}
+
+.soundboard-piano-white-key {
+  background: #d9ddd2;
+  border-radius: 0 0 2px 2px;
+  color: #171b18;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.soundboard-piano-white-key:hover,
+.soundboard-piano-white-key.is-selected {
+  background: #f14729;
+  color: #ffffff;
+}
+
+.soundboard-piano-black-key {
+  background: #171b18;
+  border-color: #080a09;
+  border-radius: 0 0 2px 2px;
+  color: #d9ddd2;
+  height: 19px;
+  left: 0;
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  width: 14px;
+  z-index: 1;
+}
+
+.soundboard-piano-black-key:hover,
+.soundboard-piano-black-key.is-selected {
+  background: #f14729;
+  color: #ffffff;F
+}
+
+.soundboard-levels {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.soundboard-levels button {
+  background: rgba(214, 220, 202, 0.2);
+  border: 0;
+  cursor: pointer;
+  height: 8px;
+  padding: 0;
+  width: 8px;
+}
+
+.soundboard-levels button:hover,
+.soundboard-levels button:focus-visible {
+  background: rgba(241, 71, 41, 0.7);
+  outline: 1px solid #f14729;
+}
+
+.soundboard-levels button.is-selected {
+  background: #f14729;
+}
+
+.soundboard-genre-control {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.55rem;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.soundboard-genre-choices {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.soundboard-genre-choice {
+  background: transparent;
+  border: 0;
+  color: #aeb8a7;
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 0.8rem;
+  height: 24px;
+  line-height: 1;
+  opacity: 0.38;
+  padding: 0;
+  transition: background 120ms ease, border-color 120ms ease, opacity 120ms ease;
+  width: 24px;
+}
+
+.soundboard-genre-choice:hover,
+.soundboard-genre-choice:focus-visible {
+  color: #f14729;
+  opacity: 0.8;
+  outline: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.soundboard-genre-choice.is-selected {
+  color: #f14729;
+  opacity: 1;
+}
+
+.soundboard-seed-control {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.55rem;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.soundboard-seed-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(214, 220, 202, 0.3);
+  border-radius: 0;
+  color: #e1e4d5;
+  font-family: "DM Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  padding: 2px 0;
+  width: 11ch;
+}
+
+.soundboard-seed-input:hover {
+  border-bottom-color: rgba(214, 220, 202, 0.6);
+}
+
+.soundboard-seed-input:focus {
+  border-bottom-color: #f14729;
+  outline: none;
+}
+
+.soundboard-tempo {
+  min-width: 300px;
+}
+
+.soundboard-generation-controls {
+  align-items: center;
+  border: 1px solid rgba(214, 220, 202, 0.16);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  padding: 8px 10px;
+}
+
+.soundboard-generation-controls > .mantine-Button-root {
+  flex: 0 0 auto;
+}
+
+.soundboard-generation-controls .soundboard-reference-controls {
+  flex: 1 1 auto;
+}
+
+.soundboard-visual-controls {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.soundboard-add-control {
+  justify-content: space-between;
+}
+
+.soundboard-hint {
+  padding-bottom: 0;
+}
+
+.soundboard-grid-wrap {
+  border: 1px solid rgba(214, 220, 202, 0.16);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 8px 8px;
+  overflow-x: auto;
+  padding: 18px 14px 16px;
+}
+
+.soundboard-grid {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: 280px repeat(32, minmax(0, 1fr));
+  min-width: 0;
+  column-gap: 0;
+  position: relative;
+  row-gap: 0;
+}
+
+.soundboard-playhead {
+  background: #e1e4d5;
+  bottom: 0;
+  left: 0;
+  mix-blend-mode: difference;
+  opacity: 0.85;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  margin-left: -1px;
+  width: 2px;
+  will-change: transform;
+  z-index: 1;
+}
+
+.soundboard-playhead::before {
+  background: #e1e4d5;
+  content: "";
+  height: 8px;
+  left: -3px;
+  position: absolute;
+  top: -4px;
+  width: 8px;
+}
+
+.soundboard-grid-corner,
+.soundboard-step-label,
+.soundboard-row-label,
+.soundboard-cell {
+  min-height: 0;
+}
+
+.soundboard-step-label {
+  color: #727b70;
+  font-size: 0.6rem;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.soundboard-step-label.is-beat {
+  color: #d0b45b;
+  font-weight: 700;
+}
+
+.soundboard-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: 280px repeat(32, minmax(0, 1fr));
+  column-gap: 0;
+  height: auto;
+}
+
+.soundboard-row-label {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  min-width: 0;
+  padding-right: 48px;
+  position: relative;
+  white-space: nowrap;
+  height: auto;
+  overflow: hidden;
+}
+
+.soundboard-row-heading {
+  align-items: center;
+  display: flex;
+  gap: 7px;
+  min-height: 18px;
+}
+
+.soundboard-row-heading > span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.soundboard-row-actions {
+  display: inline-flex;
+  gap: 1px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.soundboard-row-actions button:disabled {
+  opacity: 0.25;
+}
+
+.soundboard-chord-controls {
+  display: flex;
+  gap: 3px;
+  min-width: 0;
+}
+
+.soundboard-chord-select {
+  background: #171b18;
+  border: 1px solid rgba(214, 220, 202, 0.3);
+  border-radius: 3px;
+  color: #d9ddd2;
+  font: inherit;
+  font-size: 0.55rem;
+  min-width: 0;
+  padding: 2px;
+}
+
+.soundboard-chord-select:focus-visible {
+  border-color: var(--mantine-color-orange-5);
+  outline: 2px solid var(--mantine-color-orange-2);
+}
+
+.soundboard-row-dot {
+  border-radius: 50%;
+  display: block;
+  height: 8px;
+  width: 8px;
+}
+
+.soundboard-cell {
+  background: transparent;
+  border: 0px solid rgba(214, 220, 202, 0.16);
+  border-radius: 0;
+  cursor: pointer;
+  display: grid;
+  aspect-ratio: 1;
+  height: auto;
+  place-items: center;
+  justify-self: stretch;
+  min-height: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+
+.soundboard-cell:hover,
+.soundboard-cell:focus-visible {
+  border-color: #e1e4d5;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.soundboard-cell.is-active {
+  background: transparent;
+  border-color: transparent;
+}
+
+.soundboard-cell.is-drag-over {
+  background: rgba(241, 71, 41, 0.2);
+  border: 2px dashed #f14729;
+  box-shadow: inset 0 0 0 1px #f14729;
+}
+
+.soundboard-note-icon {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.soundboard-cell.is-active.is-current {
+  z-index: 3;
+}
+
+.soundboard-note-sparks {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.soundboard-note-ring {
+  border: 2px solid var(--note-color);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--note-color);
+  inset: 18%;
+  opacity: 0;
+  position: absolute;
+}
+
+.soundboard-note-spark {
+  background: var(--note-color);
+  box-shadow: 0 0 6px var(--note-color);
+  height: var(--spark-size, 3px);
+  left: calc(50% - var(--spark-size, 3px) / 2);
+  opacity: 0;
+  position: absolute;
+  top: calc(50% - var(--spark-size, 3px) / 2);
+  transform-origin: center;
+  width: var(--spark-size, 3px);
+}
+
+.soundboard-note-spark.is-dot {
+  border-radius: 50%;
+}
+
+.soundboard-note-spark:nth-child(3n + 2) {
+  background: var(--note-color-2, var(--note-color));
+  box-shadow: 0 0 6px var(--note-color-2, var(--note-color));
+}
+
+.soundboard-note-spark:nth-child(3n) {
+  background: var(--note-color-3, var(--note-color));
+  box-shadow: 0 0 6px var(--note-color-3, var(--note-color));
+}
+
+.soundboard-note-spark.is-streak {
+  border-radius: 2px;
+  width: calc(var(--spark-size, 3px) * 4);
+  left: calc(50% - var(--spark-size, 3px) * 2);
+}
+
+.soundboard-note-sparks .soundboard-note-spark.is-hot {
+  background: #fff6d8;
+  box-shadow: 0 0 8px #ffd77a, 0 0 3px #fff;
+}
+
+.soundboard-credit {
+  letter-spacing: 0.03em;
+}
+
+.soundboard-corner {
+  color: rgba(217, 221, 210, 0.78);
+  display: flex;
+  flex-direction: column;
+  font-family: "DM Mono", monospace;
+  font-size: 0.58rem;
+  gap: 3px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  pointer-events: none;
+  position: fixed;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.soundboard-corner-top-left {
+  left: 24px;
+  top: 22px;
+}
+
+.soundboard-corner-top-right {
+  align-items: flex-end;
+  right: 24px;
+  text-align: right;
+  top: 24px;
+}
+
+.soundboard-corner-bottom-left {
+  bottom: 22px;
+  left: 24px;
+  opacity: 0.62;
+}
+
+.soundboard-corner-bottom-right {
+  align-items: flex-end;
+  bottom: 22px;
+  opacity: 0.62;
+  right: 24px;
+  text-align: right;
+}
+
+.soundboard-brand {
+  background: none;
+  border: 0;
+  color: #e1e4d5;
+  cursor: pointer;
+  font-family: "Libre Baskerville", serif;
+  font-size: 1rem;
+  font-style: italic;
+  letter-spacing: -0.06em;
+  padding: 0;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.soundboard-brand:hover,
+.soundboard-brand:focus-visible {
+  color: var(--mantine-color-orange-7);
+}
+
+.soundboard-kicker {
+  font-size: 0.55rem;
+  letter-spacing: 0.03em;
+  opacity: 0.7;
+  text-transform: none;
+}
+
+@media (max-width: 700px) {
+  .soundboard-page {
+    padding: 125px 16px 125px;
+  }
+
+  .soundboard-controls,
+  .soundboard-add-control {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .soundboard-tempo {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .soundboard-tempo .mantine-Slider-root {
+    flex: 1;
+  }
+
+  .soundboard-hint {
+    padding: 0;
+  }
+
+  .soundboard-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .soundboard-track-editor {
+    align-items: center;
+    border: 1px solid rgba(214, 220, 202, 0.16);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 6px 8px;
+  }
+
+  .soundboard-track-editor-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .soundboard-chord-select {
+    font-size: 0.7rem;
+    padding: 4px;
+  }
+
+  .soundboard-track-editor-actions {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .soundboard-vgrid {
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 8px 8px;
+    border: 1px solid rgba(214, 220, 202, 0.16);
+    display: grid;
+    padding: 6px 4px 8px;
+    position: relative;
+  }
+
+  .soundboard-vgrid .soundboard-step-label {
+    align-self: center;
+    padding: 0 4px 0 0;
+    text-align: right;
+  }
+
+  .soundboard-vgrid .soundboard-cell {
+    aspect-ratio: auto;
+    height: 24px;
+    min-width: 0;
+  }
+
+  .soundboard-vgrid .soundboard-cell:hover,
+  .soundboard-vgrid .soundboard-cell:focus-visible {
+    transform: none;
+  }
+
+  .soundboard-vtrack-head {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-family: "DM Mono", monospace;
+    font-size: 0.85rem;
+    line-height: 1;
+    opacity: 0.55;
+    padding: 4px 0 5px;
+  }
+
+  .soundboard-vtrack-head.is-selected {
+    border-bottom-color: currentColor;
+    opacity: 1;
+  }
+
+  .soundboard-playhead.is-vertical {
+    bottom: auto;
+    height: 2px;
+    left: 4px;
+    margin-left: 0;
+    margin-top: -1px;
+    right: 4px;
+    top: 0;
+    width: auto;
+  }
+
+  .soundboard-playhead.is-vertical::before {
+    left: -4px;
+    top: -3px;
+  }
+
+  .soundboard-corner-top-left {
+    left: 16px;
+    top: 18px;
+  }
+
+  .soundboard-corner-top-right {
+    right: 16px;
+    top: 20px;
+  }
+
+  .soundboard-corner-bottom-left {
+    bottom: 16px;
+    left: 16px;
+  }
+
+  .soundboard-corner-bottom-right {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soundboard-cell,
+  .soundboard-cell.is-current,
+  .soundboard-piano-key {
+    transition: none;
+    animation: none;
+  }
+
+  .soundboard-note-sparks,
+  .soundboard-note-ring {
+    display: none;
+  }
+}

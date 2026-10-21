@@ -7,7 +7,7 @@ export default function AboutLayout() {
     <main className="about-page" aria-labelledby="about-page-title">
       <Grid columns={15} mb="xl" mt="lg">
         <Grid.Col
-          span={{ base: 15, md: 3 }}
+          span={{ base: 15, md: 5 }}
           style={{
             width: "100%",
           }}
@@ -16,7 +16,7 @@ export default function AboutLayout() {
         </Grid.Col>
         <Grid.Col span={{ base: 15, md: 1 }}>
         </Grid.Col>
-        <Grid.Col span={{ base: 15, md: 5 }}>
+        <Grid.Col span={{ base: 15, md: 4 }}>
           <Stack gap="xs">
             <Text c="dimmed" size="xs" tt="uppercase" style={{
                 letterSpacing: "-1px",
@@ -43,7 +43,7 @@ export default function AboutLayout() {
         </Grid.Col>
         <Grid.Col span={{ base: 15, md: 1 }}>
         </Grid.Col>
-        <Grid.Col span={{ base: 15, md: 5 }}>
+        <Grid.Col span={{ base: 15, md: 4 }}>
           <Stack gap="xs">
             <Text c="dimmed" size="xs" tt="uppercase" style={{
                 letterSpacing: "-1px",

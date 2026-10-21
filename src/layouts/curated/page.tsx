@@ -1,10 +1,13 @@
 import {
+  Box,
+  Center,
   Group,
   Stack,
   Text,
   Button,
   Divider,
 } from "@mantine/core";
+import { BitLoader } from "../../components/loader/bit-loader";
 import { useEffect, useState } from "react";
 import {
   IconChevronLeft,
@@ -35,9 +38,14 @@ export default function CollectionsLayout() {
   });
 
   const [data, setData] = useState<CollectionEntity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Ignore responses from superseded requests (e.g. rapid month switching)
+    let isStale = false;
+
     async function fetchCollections(): Promise<void> {
+      setIsLoading(true);
       try {
         const response =
           await CollectionService.getInstance().getCollectionsByMonthAndYear(
@@ -45,17 +53,25 @@ export default function CollectionsLayout() {
             currentDate.month,
           );
 
+        if (isStale) return;
+
         if (response.error) {
           console.error(response.error);
         } else if (response.data) {
           setData(response.data as CollectionEntity[]);
         }
       } catch (e) {
-        console.error(e);
+        if (!isStale) console.error(e);
+      } finally {
+        if (!isStale) setIsLoading(false);
       }
     }
 
     (async () => await fetchCollections())();
+
+    return () => {
+      isStale = true;
+    };
   }, [currentDate.month, currentDate.year]);
 
   // Handlers to increment/decrement the active month
@@ -138,11 +154,26 @@ export default function CollectionsLayout() {
           }}
         />
 
-        <Calendar
-          data={data}
-          year={currentDate.year}
-          month={currentDate.month}
-        />
+        <Box pos="relative" aria-busy={isLoading}>
+          <Box
+            style={{
+              opacity: isLoading ? 0.25 : 1,
+              pointerEvents: isLoading ? "none" : undefined,
+              transition: "opacity 120ms steps(2, end)",
+            }}
+          >
+            <Calendar
+              data={data}
+              year={currentDate.year}
+              month={currentDate.month}
+            />
+          </Box>
+          {isLoading && (
+            <Center pos="absolute" inset={0}>
+              <BitLoader label="Loading collections" />
+            </Center>
+          )}
+        </Box>
       </Stack>
     </>
   );

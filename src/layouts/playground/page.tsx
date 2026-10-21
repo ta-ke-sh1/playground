@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Grid, Stack, Text, Title } from "@mantine/core";
 import type { PlaygroundItem } from "../../models/playgroundItem.model";
-import PlaygroundItemList from "../../components/viewer/playground/playgrounItemList.viewer";
+import PlaygroundItemList from "../../components/viewer/playground/playgroundItemList.viewer";
 import PlaygroundItemFiltersPanel from "../../components/viewer/playground/playgroundItemFilters";
 import type { PlaygroundItemFilters } from "../../components/viewer/playground/playgroundItemFilters";
 import { IconBrightnessDownFilled } from "@tabler/icons-react";
@@ -54,6 +54,16 @@ const projects: PlaygroundItem[] = [
     description:
       "An interactive infinite zoom scrolling experience: scroll to continuously zoom into a scene with smooth animations and dynamic content.",
     url: "/infinite-zoom",
+  },
+  {
+    name: "Soundboard",
+    images: ["/projects/soundboard/1.png", "/projects/soundboard/2.png", "/projects/soundboard/3.png"],
+    tags: ["TypeScript", "Web Audio", "Interactive"],
+    category: "Music",
+    date: "2026-10-15",
+    description:
+      "A playful step sequencer for arranging notes in a grid, changing tempo, and experimenting with synthesized instruments.",
+    url: "/soundboard",
   },
 ];
 

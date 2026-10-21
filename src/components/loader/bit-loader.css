@@ -1,0 +1,51 @@
+.bit-loader {
+  --bit-size: 8px;
+  --bit-gap: 4px;
+  --bit-steps: 8;
+  --bit-step-duration: 0.12s;
+
+  display: grid;
+  grid-template-columns: repeat(3, var(--bit-size));
+  grid-template-rows: repeat(3, var(--bit-size));
+  gap: var(--bit-gap);
+  color: #1a1a1a;
+}
+
+.bit-loader__bit {
+  width: var(--bit-size);
+  height: var(--bit-size);
+  background: currentColor;
+  opacity: 0.12;
+  animation: bit-loader-chase calc(var(--bit-steps) * var(--bit-step-duration))
+    steps(1, end) infinite;
+  animation-delay: calc(
+    (var(--bit-index) - var(--bit-steps)) * var(--bit-step-duration)
+  );
+}
+
+/* Hard, stepped frames: a 3-bit tail chases clockwise around the ring. */
+@keyframes bit-loader-chase {
+  0% {
+    opacity: 1;
+  }
+  12.5% {
+    opacity: 0.66;
+  }
+  25% {
+    opacity: 0.33;
+  }
+  37.5%,
+  100% {
+    opacity: 0.12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bit-loader__bit {
+    animation: none;
+  }
+
+  .bit-loader__bit:nth-child(-n + 3) {
+    opacity: 0.66;
+  }
+}

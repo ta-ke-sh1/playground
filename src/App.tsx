@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { Center, Loader, MantineProvider } from "@mantine/core";
+import { Center, MantineProvider } from "@mantine/core";
+import { BitLoader } from "./components/loader/bit-loader";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -30,6 +31,7 @@ const GardenLayout = lazy(() => import("./layouts/playground/garden/page"));
 const CrystalLayout = lazy(() => import("./layouts/playground/crystal/page"));
 const ShortestPathLayout = lazy(() => import("./layouts/playground/shortest-path/page"));
 const InfiniteZoomLayout = lazy(() => import("./layouts/playground/zoom/page"));
+const SoundboardLayout = lazy(() => import("./layouts/playground/soundboard/page"));
 
 function RouteLenis() {
   const { pathname } = useLocation();
@@ -55,8 +57,8 @@ function App() {
         <Analytics />
         <Suspense
           fallback={
-            <Center h="100dvh" role="status">
-              <Loader size="sm" aria-label="Loading page" />
+            <Center h="100dvh">
+              <BitLoader />
             </Center>
           }
         >
@@ -73,6 +75,7 @@ function App() {
             <Route path="/playground/crystal" element={<CrystalLayout />} />
             <Route path="/playground/shortest-path" element={<ShortestPathLayout />} />
             <Route path="/playground/infinite-zoom" element={<InfiniteZoomLayout />} />
+            <Route path="/playground/soundboard" element={<SoundboardLayout />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
